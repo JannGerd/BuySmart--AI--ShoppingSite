@@ -1,9 +1,15 @@
 fastapi
 uvicorn
+pydantic
 sqlalchemy
 pymysql
-passlib
 python-dotenv
+passlib[bcrypt]
+pyjwt
+streamlit
+pandas
+numpy
+matplotlib
+scikit-learn
 openai
 plotly
-
