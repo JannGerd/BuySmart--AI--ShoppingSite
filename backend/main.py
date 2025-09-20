@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
+from backend.routers import auth
 import os
 
 from backend.database import create_tables
@@ -8,6 +9,8 @@ import backend.gpt as gpt
 
 load_dotenv()
 app = FastAPI(title="BuySmart API")
+app.include_router(auth.router)
+
 
 @app.on_event("startup")
 def on_startup():

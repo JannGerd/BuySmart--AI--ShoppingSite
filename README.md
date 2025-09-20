@@ -1,7 +1,8 @@
-🛒 BuySmart – AI-Powered Shopping Website
+# 🛒 BuySmart – AI-Powered Shopping Website
 
 Final project for AI course.
 
+---
 
 ## 📌 Project Overview
 BuySmart is a backend API project for a simulated shopping site, developed as part of my final course project.  
@@ -18,6 +19,7 @@ The project includes complete CRUD (Create, Read, Update, Delete) functionality 
 
 Additionally, it integrates **OpenAI API (ChatGPT)** for a demo AI assistant endpoint.
 
+---
 
 ## ⚙️ Technologies Used
 - FastAPI for RESTful APIs  
@@ -26,11 +28,12 @@ Additionally, it integrates **OpenAI API (ChatGPT)** for a demo AI assistant end
 - Pydantic for data validation  
 - Docker for containerization  
 - Streamlit for interactive dashboards and data visualization  
-- OpenAI API (ChatGPT integration)
+- OpenAI API (ChatGPT integration)  
 
+---
 
 ## 📂 Project Structure
-
+```
 backend/
 ├── routers/
 │ ├── customers.py
@@ -51,16 +54,19 @@ init_db.sql
 requirements.txt
 .env.example
 docker-compose.yml (optional)
-
-
+```
 
 ## 🧩 Key Features
 - Full CRUD APIs for all six tables  
 - Dockerized setup  
-- Streamlit dashboard with graphs:  
+- Authentication with JWT (register, login, logout, delete user)  
+- Password hashing with bcrypt  
+- Protected routes for Orders, Wishlist, and User actions  
+- Streamlit dashboard with:  
   - Orders by month  
   - Payments breakdown by method  
-  - (Additional graphs depending on data)  
+  - Product, Orders and Wishlist views  
+  - Login/Register and Chat Assistant (integrated with ChatGPT API)  
 - ChatGPT endpoint (`/ask-gpt`) for interacting with OpenAI API  
 
 
@@ -101,27 +107,24 @@ cp .env.example .env
 # DATABASE_URL=mysql+pymysql://buysmart:buysmart123@db:3306/buysmart
 docker-compose up --build
 
+
 API → http://localhost:8000/docs
 Streamlit → http://localhost:8501
+```
 
+📝 Note
 
-🧑‍💻 OpenAI API Integration
+The Streamlit UI is minimal – intended for demo and visualization, not production frontend.
 
-The /ask-gpt endpoint is connected to OpenAI's API.
-Currently, due to quota limitations, this endpoint returns a response indicating insufficient quota.
-The code is functioning correctly and can be activated with a valid API key with sufficient credits.
+ChatGPT API integration is implemented but currently limited due to API quota.
 
-✅ Current Project Status
+Bonus ML feature (prediction model) was not implemented as it was optional.
+
+✅ Current Project Status & Conclusion
 
 The project runs successfully in both local and Docker environments.
-All required features for backend CRUD, API endpoints, and Streamlit dashboard are implemented.
-
-🏁 Conclusion
+All required features for backend CRUD, authentication, API endpoints, and Streamlit dashboard are implemented.
 
 This project was developed independently with attention to real-world backend skills and API integrations.
-Due to course limitations, certain external services (OpenAI GPT) are limited by credit balance but are
-
-
-💡 Author
-This project was developed by me as part of my Backend Developer course.
-
+OpenAI GPT integration is functional but limited due to credit quota.
+Overall, the project demonstrates a complete end-to-end system with a strong backend focus.

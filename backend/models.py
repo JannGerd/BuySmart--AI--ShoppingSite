@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Date, ForeignKey
 from sqlalchemy import DateTime
+from backend.database import Base
 
 Base = declarative_base()
 
@@ -64,5 +65,19 @@ class UserWishlist(Base):
     customer_id = Column(Integer, ForeignKey("customers.customer_id"))
     product_id = Column(Integer, ForeignKey("products.product_id"))
     added_at = Column(Date)
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    first_name = Column(String(100), nullable=False)
+    last_name = Column(String(100), nullable=False)
+    email = Column(String(255), nullable=False, unique=True, index=True)
+    username = Column(String(100), nullable=False, unique=True, index=True)
+    password_hash = Column(String(255), nullable=False)
+    city = Column(String(100))
+    country = Column(String(100))
+    phone = Column(String(50))
 
 

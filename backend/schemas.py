@@ -1,5 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import datetime, date
+from typing import Optional
 
 
 class ProductCreate(BaseModel):
@@ -97,6 +98,31 @@ class UserWishlistCreate(UserWishlistBase):
 class UserWishlist(UserWishlistBase):
     wishlist_id: int
     added_at: date
+
+    class Config:
+        from_attributes = True
+
+
+class UserRegister(BaseModel):
+    first_name: str
+    last_name: str
+    email: EmailStr
+    username: str
+    password: str
+    city: Optional[str] = None
+    country: Optional[str] = None
+    phone: Optional[str] = None
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+class UserOut(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    email: EmailStr
+    username: str
 
     class Config:
         from_attributes = True
