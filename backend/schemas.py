@@ -1,12 +1,12 @@
-from pydantic import BaseModel, EmailStr
 from datetime import datetime, date
 from typing import Optional
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class ProductCreate(BaseModel):
     name: str
-    price: float
-    stock_amount: int
+    price: float = Field(..., gt=0, description="Price must be greater than zero")
+    stock_amount: int = Field(..., ge=0, description="Stock must be zero or more")
 
 class ProductOut(ProductCreate):
     product_id: int
@@ -18,11 +18,18 @@ class ProductOut(ProductCreate):
 class CustomerBase(BaseModel):
     first_name: str
     last_name: str
-    email: str
+    email: EmailStr
     phone: str
     address: str
     username: str
     password: str
+
+    @field_validator("password")
+    @classmethod
+    def validate_password_length(cls, v):
+        if len(v) < 6:
+            raise ValueError("Password must be at least 6 characters long")
+        return v
 
 class CustomerCreate(CustomerBase):
     pass
@@ -62,21 +69,10 @@ class Payment(PaymentCreate):
         from_attributes = True
 
 
-class UserWishlistCreate(BaseModel):
-    customer_id: int
-    product_id: int
-
-class UserWishlist(UserWishlistCreate):
-    wishlist_id: int
-
-    class Config:
-        from_attributes = True
-
-
 class OrderItemBase(BaseModel):
     order_id: int
     product_id: int
-    quantity: int
+    quantity: int = Field(..., gt=0, description="Quantity must be greater than zero")
 
 class OrderItemCreate(OrderItemBase):
     pass
@@ -113,6 +109,13 @@ class UserRegister(BaseModel):
     country: Optional[str] = None
     phone: Optional[str] = None
 
+    @field_validator("password")
+    @classmethod
+    def validate_password_length(cls, v):
+        if len(v) < 6:
+            raise ValueError("Password must be at least 6 characters long")
+        return v
+
 class UserLogin(BaseModel):
     username: str
     password: str
@@ -123,6 +126,16 @@ class UserOut(BaseModel):
     last_name: str
     email: EmailStr
     username: str
+
+    class Config:
+        from_attributes = True
+
+
+class CustomerOut(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    email: EmailStr
 
     class Config:
         from_attributes = True

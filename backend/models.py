@@ -1,7 +1,9 @@
-from sqlalchemy import Column, Integer, String, Float
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, Float, Enum
+import enum
+from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import Date, ForeignKey
 from sqlalchemy import DateTime
+from datetime import datetime
 from backend.database import Base
 
 Base = declarative_base()
@@ -28,24 +30,35 @@ class Product(Base):
     stock_amount = Column(Integer, nullable=False)
 
 
+
+class OrderStatus(enum.Enum):
+    TEMP = "TEMP"
+    CLOSE = "CLOSE"
+
+
 class Order(Base):
     __tablename__ = "orders"
 
     order_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    customer_id = Column(Integer, ForeignKey("customers.customer_id"))
-    status = Column(String(10), nullable=False)
-    order_date = Column(Date)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    status = Column(Enum(OrderStatus), default=OrderStatus.TEMP)
+    order_date = Column(Date, default=datetime.utcnow)
     shipping_address = Column(String(255))
-    total_price = Column(Float)
+    total_price = Column(Float, default=0.0)
 
+
+    items = relationship("OrderItem", back_populates="order")
+    user = relationship("User", back_populates="orders")
 
 class OrderItem(Base):
     __tablename__ = "order_items"
 
-    order_item_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     order_id = Column(Integer, ForeignKey("orders.order_id"))
     product_id = Column(Integer, ForeignKey("products.product_id"))
     quantity = Column(Integer, nullable=False)
+
+    order = relationship("Order", back_populates="items")
 
 
 class Payment(Base):

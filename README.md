@@ -1,130 +1,147 @@
-# 🛒 BuySmart – AI-Powered Shopping Website
+#  Final Project – BuySmart: AI Shopping Site
 
-Final project for AI course.
-
----
-
-## 📌 Project Overview
-BuySmart is a backend API project for a simulated shopping site, developed as part of my final course project.  
-The project focuses on backend development using **FastAPI**, **SQLAlchemy**, **MySQL**, and **Streamlit** for dashboard visualization.
-
-The project includes complete CRUD (Create, Read, Update, Delete) functionality for six key database tables:
-
-- Customers  
-- Products  
-- Orders  
-- Payments  
-- Order Items  
-- User Wishlist  
-
-Additionally, it integrates **OpenAI API (ChatGPT)** for a demo AI assistant endpoint.
+**Course:** AI & Software Development Program  
+**Instructor:** Matan Maman  
+**Student:** Janna Glikshteyn  
 
 ---
 
-## ⚙️ Technologies Used
-- FastAPI for RESTful APIs  
-- SQLAlchemy ORM for database connection  
-- MySQL database  
-- Pydantic for data validation  
-- Docker for containerization  
-- Streamlit for interactive dashboards and data visualization  
-- OpenAI API (ChatGPT integration)  
+##  Project Overview
+
+**BuySmart** is a backend-focused e-commerce platform simulating a real-world online shopping system.  
+It integrates **AI-powered assistance**, **secure authentication**, **data management**, and **interactive dashboards** — built entirely with **FastAPI**, **MySQL**, and **Streamlit**.
 
 ---
 
-## 📂 Project Structure
-```
-backend/
-├── routers/
-│ ├── customers.py
-│ ├── orders.py
-│ ├── payments.py
-│ ├── products.py
-│ ├── order_items.py
-│ ├── user_wishlist.py
-│ └── gpt.py
-├── models.py
-├── schemas.py
-├── database.py
-├── main.py
-├── auto_utils.py
-└── streamlit_app.py
+##  Features
 
-init_db.sql
-requirements.txt
-.env.example
-docker-compose.yml (optional)
-```
+- Full CRUD operations (Products, Customers, Orders, Payments, Wishlist)  
+- AI Assistant powered by **OpenAI API**  
+- JWT-based authentication & password hashing  
+- Product search (by name and stock level)  
+- Streamlit dashboard with dynamic graphs  
+- Full API documentation  
+- Dockerized deployment  
+- Logging, error handling, and type hinting  
 
-## 🧩 Key Features
-- Full CRUD APIs for all six tables  
-- Dockerized setup  
-- Authentication with JWT (register, login, logout, delete user)  
-- Password hashing with bcrypt  
-- Protected routes for Orders, Wishlist, and User actions  
-- Streamlit dashboard with:  
-  - Orders by month  
-  - Payments breakdown by method  
-  - Product, Orders and Wishlist views  
-  - Login/Register and Chat Assistant (integrated with ChatGPT API)  
-- ChatGPT endpoint (`/ask-gpt`) for interacting with OpenAI API  
+---
+
+##  Technologies
+
+| Category | Tools / Libraries |
+|-----------|------------------|
+| **Backend** | FastAPI, SQLAlchemy, Pydantic |
+| **Database** | MySQL |
+| **Security** | JWT, Passlib (bcrypt) |
+| **AI** | OpenAI API |
+| **Frontend** | Streamlit |
+| **Deployment** | Docker, Docker Compose |
+| **Testing** | Postman |
+| **Monitoring** | Logging, Type Hints, Error Handling |
+
+---
+
+##  Project Structure
+
+BuySmart-AI_ShoppingSite/
+│
+├── backend/
+│ ├── main.py # FastAPI entry point
+│ ├── models.py # SQLAlchemy models
+│ ├── schemas.py # Pydantic schemas
+│ ├── database.py # MySQL connection
+│ ├── security.py # Password hashing & JWT
+│ ├── gpt.py # OpenAI integration
+│ ├── streamlit_app.py # Streamlit UI
+│ ├── api_documentation.md # API reference
+│ └── routers/ # All API routes
+│
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
+├── init_db.sql
+└── README.md
 
 
-## 🟢 How to Run
+---
 
-### Local setup (without Docker)
+##  Installation & Setup
+
+### 1 Create Database
+Make sure MySQL is installed or run via Docker:
 ```bash
-git clone https://github.com/JannGerd/BuySmart--AI--ShoppingSite
-cd BuySmart--AI--ShoppingSite
+CREATE DATABASE buysmart_db;
 
-# Create and activate virtual environment
-python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# macOS/Linux:
-source .venv/bin/activate
+2️ Create .env file
+DATABASE_URL=mysql+mysqlconnector://user:password@localhost:3306/buysmart_db
+SECRET_KEY=your_secret_key
+OPENAI_API_KEY=your_openai_key
 
-# Install dependencies
+3️ Run Locally
 pip install -r requirements.txt
+uvicorn backend.main:app --reload
 
-# Copy example environment file
-cp .env.example .env
+4️ Run Streamlit UI
+streamlit run backend/streamlit_app.py
 
-# Initialize database schema (requires MySQL running locally)
-mysql -u root -p < init_db.sql
-
-# Run backend API
-uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
-
-
-API Docs → http://127.0.0.1:8000/docs
-Health Check → http://127.0.0.1:8000/healthz
-
-streamlit run streamlit_app.py
-
-cp .env.example .env
-# Make sure DATABASE_URL in .env points to "db" host:
-# DATABASE_URL=mysql+pymysql://buysmart:buysmart123@db:3306/buysmart
+5️ Run with Docker (recommended)
 docker-compose up --build
 
+ Security Highlights
 
-API → http://localhost:8000/docs
-Streamlit → http://localhost:8501
-```
+Passwords hashed with bcrypt
 
-📝 Note
+JWT token authentication
 
-The Streamlit UI is minimal – intended for demo and visualization, not production frontend.
+Custom error handling and logging
 
-ChatGPT API integration is implemented but currently limited due to API quota.
+Protected routes require Bearer token
 
-Bonus ML feature (prediction model) was not implemented as it was optional.
+ Search Features
 
-✅ Current Project Status & Conclusion
+Search products by full or partial name
 
-The project runs successfully in both local and Docker environments.
-All required features for backend CRUD, authentication, API endpoints, and Streamlit dashboard are implemented.
+Filter products by quantity (equal, greater, or less)
 
-This project was developed independently with attention to real-world backend skills and API integrations.
-OpenAI GPT integration is functional but limited due to credit quota.
-Overall, the project demonstrates a complete end-to-end system with a strong backend focus.
+Reset filters easily in the Streamlit UI
+
+ Streamlit Dashboards
+
+Orders by month
+
+Payments by method
+
+Order status distribution
+
+ API Testing
+
+All endpoints were verified using Postman:
+
+Category	Tested Routes
+Authentication	/register, /login
+CRUD Operations	Products, Customers, Orders, Payments, Wishlist
+Validation	Error handling & token-based access
+Instructor Requirements – Coverage Summary
+#	Requirement	Status
+1	FastAPI + MySQL
+2	10+ Products in DB
+3	Search by name & quantity
+4	CRUD for all models
+5	Password encryption (JWT + bcrypt)
+6	OpenAI Integration
+7	Docker Support
+8	Streamlit UI
+9	Graphs & Visuals
+10	API Documentation
+11	README File
+12	Error Handling + Logging + Type Hints
+13	Wishlist Feature
+
+ Author's Note
+
+This project represents a full cycle of learning — from backend logic to frontend visualization and deployment.
+It combines creativity, problem-solving, and technical depth in one cohesive system.
+
+Created and developed by Janna Glikshteyn
+GitHub Repository - https://github.com/JannGerd/BuySmart--AI--ShoppingSite
